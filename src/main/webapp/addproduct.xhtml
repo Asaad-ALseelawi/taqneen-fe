@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Product Management</title>
+</h:head>
+<h:body>
+    <h:form>
+        <h2>Add New Product</h2>
+        <h:panelGrid columns="2">
+            <h:outputLabel for="productName" value="Product Name:" />
+            <h:inputText id="productName" value="#{productBean.newProduct.name}" />
+
+            <h:outputLabel for="productPrice" value="Product Price:" />
+            <h:inputText id="productPrice" value="#{productBean.newProduct.price}" />
+            <h:outputLabel for="productDesc" value="Product Description:" />
+            <h:inputText id="productDesc" value="#{productBean.newProduct.description}" />
+
+            <h:commandButton value="Add Product" action="#{productBean.addProduct}" />
+        </h:panelGrid>
+
+        <h2>Product List</h2>
+        <h:dataTable value="#{productBean.products}" var="product" border="1">
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{product.name}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Price</f:facet>
+                #{product.price}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Actions</f:facet>
+                <h:commandButton value="Edit" action="#{productBean.selectProduct(product)}" />
+                <h:commandButton value="Delete" action="#{productBean.deleteProduct(product)}" />
+            </h:column>
+        </h:dataTable>
+
+        <h:panelGrid rendered="#{not empty productBean.selectedProduct}">
+            <h2>Update Product</h2>
+            <h:outputLabel for="editProductName" value="Product Name:" />
+            <h:inputText id="editProductName" value="#{productBean.selectedProduct.name}" />
+
+            <h:outputLabel for="editProductPrice" value="Product Price:" />
+            <h:inputText id="editProductPrice" value="#{productBean.selectedProduct.price}" />
+
+            <h:commandButton value="Update Product" action="#{productBean.updateProduct}" />
+            <h:commandButton value="Cancel" action="#{productBean.cancel()}" />
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>
